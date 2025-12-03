@@ -2,6 +2,7 @@ import React from 'react'
 import Templates from '../components/Templates.jsx'
 import Workspace from '../components/Workspace.jsx'
 import Showcase from '../components/Showcase.jsx'
+import FeaturesCarousel from '../components/FeaturesCarousel.jsx'
 
 export default function HomeContent(){
   const onNav = e => {
@@ -40,6 +41,8 @@ export default function HomeContent(){
       <Templates />
       <Workspace />
 
+      <FeaturesCarousel />
+
       <section className="section" id="outputs">
         <div className="container">
           <div className="section-head"><h2>生产级输出默认就绪</h2><p>生成仪表盘、发布地图、导出报告与打包应用，内置审计日志、访问控制与合规模块。</p></div>
@@ -55,11 +58,50 @@ export default function HomeContent(){
 
       <section className="section alt" id="faq">
         <div className="container">
-          <div className="section-head"><h2>常见问题</h2><p>从首次查询到生产部署，我们如何降低复杂度并提升可控性。</p></div>
+          <div className="section-head"><h2>常见问题</h2><p>从数据接入到部署交付，AstraFlux 为你简化每一步。</p></div>
           <div className="faq">
-            <details><summary>如何访问公共与商业数据集</summary><p>通过统一数据访问层直接查询 Sentinel、Landsat 等数据源，并可接入自有卫星馈送。</p></details>
-            <details><summary>Notebook 代理能做什么</summary><p>代理理解数据与目标，帮助生成分析代码、优化流程并保持可复用与可审计。</p></details>
-            <details><summary>输出如何交付</summary><p>默认支持生成仪表盘、交互地图与报告，可一键部署到边缘或云端。</p></details>
+            <details>
+              <summary>在这里能接入并处理个人数据吗？</summary>
+              <p>可以。AstraFlux 兼容开放与商业卫星影像，也支持无人机和物联网数据。只要你能通过 API 或文件上传获取，我们就能直接接入。</p>
+            </details>
+            <details>
+              <summary>使用者需要 GIS 专家才能上手吗？</summary>
+              <p>不需要。普通数据处理师可直接上手，无需任何 GIS 交接。你的 Notebook 一键生成地图，团队成员即使不懂 GIS 也能无缝协作。</p>
+            </details>
+            <details>
+              <summary>能使用平台跟使用者现有的工具对接吗？</summary>
+              <p>可以。直接导入你的 Jupyter Notebook 和 Python 流程，秒级接入 IoT 传感器、无人机影像、卫星数据等现有源。我们还在持续扩充更多工具集成。</p>
+            </details>
+            <details>
+              <summary>部署需要多久？</summary>
+              <p>几分钟，而非数周。接入数据源 → 转换 Notebook → 一键上线，无需搭建后端，也无需排队等 IT 审批。</p>
+            </details>
+            <details>
+              <summary>现在就能用，还是仍在测试？</summary>
+              <p>目前处于公开测试阶段，会持续滚动接收新团队。申请抢先体验即可加入下一批用户。</p>
+            </details>
+            <details>
+              <summary>个人数据会被如何处理？</summary>
+              <p>数据始终归你所有。我们不会用它训练模型，也不会对外共享。若对数据主权有要求，很快你还能把整套系统直接部署到自己的 AWS/Azure 环境里。</p>
+            </details>
+            <details>
+              <summary>对于受监管行业，安全性够吗？</summary>
+              <p>除了角色权限与完整审计日志，我们正陆续推出更多增强安全功能，以满足合规要求。</p>
+            </details>
+            <details>
+              <summary>数据接入怎么操作？</summary>
+              <p>我们正持续对接更多数据提供商与聚合平台。企业可：</p>
+              <ul>
+                <li>沿用已有的商业影像合约；</li>
+                <li>直连现有数据供应商；</li>
+                <li>或直接选用我们的数据源。</li>
+              </ul>
+              <p>使用商业影像需通过一次快速 KYC 验证即可开通权限。</p>
+            </details>
+            <details>
+              <summary>可以给客户输出白标版本吗？</summary>
+              <p>可以。企业版支持自定义品牌模式，可在仪表盘上替换为贵司的 Logo 与配色，客户看到的只有你们的品牌，毫无我们的标识。</p>
+            </details>
           </div>
         </div>
       </section>
