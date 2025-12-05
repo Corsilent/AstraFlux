@@ -25,3 +25,4 @@ Thumbs.db
 
 # Build artifacts
 *.local
+server/*.db
