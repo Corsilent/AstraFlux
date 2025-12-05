@@ -9,6 +9,7 @@ export default function Login(){
   const [error, setError] = useState('')
   const lang = typeof window !== 'undefined' ? (localStorage.getItem('lang') || 'zh') : 'zh'
   const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
+  const disabled = !API
   const submit = async e => {
     e.preventDefault()
     setError('')
@@ -49,8 +50,9 @@ export default function Login(){
                 <span>{lang==='zh'?'密码':'Password'}</span>
                 <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="至少 6 位" required />
               </label>
+              {disabled && (<div className="auth-error">{lang==='zh'?'当前为前端预览，未配置后端 API':'Frontend preview only, API not configured'}</div>)}
               {error && (<div className="auth-error">{error}</div>)}
-              <button className="btn btn-primary" type="submit" disabled={loading}>{loading ? (lang==='zh'?'登录中…':'Signing in…') : (lang==='zh'?'登录':'Login')}</button>
+              <button className="btn btn-primary" type="submit" disabled={loading || disabled}>{loading ? (lang==='zh'?'登录中…':'Signing in…') : (lang==='zh'?'登录':'Login')}</button>
             </form>
             <div><span className="auth-sub">{lang==='zh'?'没有账号？':'No account yet?'}</span> <Link to="/register" className="showcase-link">{lang==='zh'?'去注册':'Go to sign up'}</Link></div>
           </div>

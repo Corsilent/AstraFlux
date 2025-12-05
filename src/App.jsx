@@ -41,6 +41,7 @@ export default function App() {
   const navigate = useNavigate()
   const location = useLocation()
   const initial = user && user.email ? user.email.charAt(0).toUpperCase() : ''
+  const hasApi = !!import.meta.env.VITE_API_URL
   useEffect(() => {
     try {
       const u = localStorage.getItem('auth_user')
@@ -116,9 +117,10 @@ export default function App() {
                 <span>{lang==='zh'?'欢迎':'Welcome'}, {user.email}</span>
               </div>
             )}
-            {!user && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
-            {!user && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
-            {user && (<button className="btn btn-soft" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
+            {!user && hasApi && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
+            {!user && hasApi && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
+            {!hasApi && (<span className="badge muted">{lang==='zh'?'预览模式':'Preview mode'}</span>)}
+            {user && (<button className="btn btn软" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
             <button className="menu-btn" onClick={() => setOpen(!open)} aria-label="打开菜单">☰</button>
           </div>
         </div>
@@ -137,8 +139,9 @@ export default function App() {
               <a key={n.href} href={n.href} onClick={onNav}>{n.text}</a>
             ))}
             <a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a>
-            {!user && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
-            {!user && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
+            {!user && hasApi && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
+            {!user && hasApi && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
+            {!hasApi && (<span className="badge muted">{lang==='zh'?'预览模式':'Preview mode'}</span>)}
             {user && (<button className="btn btn-soft" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
           </div>
         )}

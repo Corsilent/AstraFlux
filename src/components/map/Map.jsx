@@ -35,7 +35,7 @@ export default function Map(){
       }
       const payload = { id: `aoi-${Date.now()}`, name: 'AOI', geojson: gj, areaKm2 }
       const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
-      fetch(`${API}/api/aoi`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      if (API) fetch(`${API}/api/aoi`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
     })
     function toggleMeasure(){
       setState(s => ({ ...s, measuring: !s.measuring }))

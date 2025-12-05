@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom'
 
 async function getTemplates(){
   const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
+  if (!API) {
+    return [
+      { id: 'port-monitor', title: '港口活动监测', description: '识别船只与泊位变化，输出每日报告与告警。' },
+      { id: 'infra-change', title: '基础设施变化检测', description: '对比多时相影像，高亮施工与异常。' },
+      { id: 'landcover', title: '地物分类', description: '道路、植被与水体分割，支持精细化标注。' },
+      { id: 'disaster', title: '灾害评估', description: '洪涝与火灾范围提取，辅助应急响应。' }
+    ]
+  }
   const r = await fetch(`${API}/api/templates`)
   if(!r.ok) throw new Error('模板加载失败')
   return r.json()
