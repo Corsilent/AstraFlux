@@ -8,16 +8,17 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const lang = typeof window !== 'undefined' ? (localStorage.getItem('lang') || 'zh') : 'zh'
+  const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
   const submit = async e => {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
+              const res = await fetch(`${API}/api/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+              })
       const data = await res.json()
       if (res.ok && data && data.ok) {
         localStorage.setItem('auth_token', data.token)

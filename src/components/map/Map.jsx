@@ -34,7 +34,8 @@ export default function Map(){
         try { areaKm2 = turf.area(gj) / 1_000_000 } catch {}
       }
       const payload = { id: `aoi-${Date.now()}`, name: 'AOI', geojson: gj, areaKm2 }
-      fetch('/api/aoi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
+      fetch(`${API}/api/aoi`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
     })
     function toggleMeasure(){
       setState(s => ({ ...s, measuring: !s.measuring }))

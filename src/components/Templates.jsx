@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 async function getTemplates(){
-  const r = await fetch('/api/templates')
+  const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
+  const r = await fetch(`${API}/api/templates`)
   if(!r.ok) throw new Error('模板加载失败')
   return r.json()
 }
