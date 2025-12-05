@@ -41,7 +41,7 @@ export default function HomeContent({ lang='zh' }){
       <Templates lang={lang} />
       <Workspace lang={lang} />
 
-      <FeaturesCarousel />
+      <FeaturesCarousel lang={lang} />
 
       <section className="section" id="outputs">
         <div className="container">
