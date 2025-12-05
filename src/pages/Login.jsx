@@ -7,6 +7,7 @@ export default function Login(){
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const lang = typeof window !== 'undefined' ? (localStorage.getItem('lang') || 'zh') : 'zh'
   const submit = async e => {
     e.preventDefault()
     setError('')
@@ -36,21 +37,21 @@ export default function Login(){
       <div className="container">
       <div className="auth">
           <div className="auth-card">
-            <h2>登录</h2>
-            <p className="auth-sub">使用你的邮箱登录 AstraFlux 工作空间。</p>
+            <h2>{lang==='zh'?'登录':'Login'}</h2>
+            <p className="auth-sub">{lang==='zh'?'使用你的邮箱登录 AstraFlux 工作空间。':'Sign in with your email to AstraFlux workspace.'}</p>
             <form className="auth-form" onSubmit={submit}>
               <label className="auth-row">
-                <span>邮箱</span>
+                <span>{lang==='zh'?'邮箱':'Email'}</span>
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" required />
               </label>
               <label className="auth-row">
-                <span>密码</span>
+                <span>{lang==='zh'?'密码':'Password'}</span>
                 <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="至少 6 位" required />
               </label>
               {error && (<div className="auth-error">{error}</div>)}
-              <button className="btn btn-primary" type="submit" disabled={loading}>{loading ? '登录中…' : '登录'}</button>
+              <button className="btn btn-primary" type="submit" disabled={loading}>{loading ? (lang==='zh'?'登录中…':'Signing in…') : (lang==='zh'?'登录':'Login')}</button>
             </form>
-            <div><span className="auth-sub">没有账号？</span> <Link to="/register" className="showcase-link">去注册</Link></div>
+            <div><span className="auth-sub">{lang==='zh'?'没有账号？':'No account yet?'}</span> <Link to="/register" className="showcase-link">{lang==='zh'?'去注册':'Go to sign up'}</Link></div>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ async function getTemplates(){
   return r.json()
 }
 
-export default function Templates(){
+export default function Templates({ lang='zh' }){
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -18,10 +18,10 @@ export default function Templates(){
     <section className="section" id="templates">
       <div className="container">
         <div className="section-head">
-          <h2>模板库与数据访问</h2>
-          <p>无需下载与集成，使用可复用的构件快速起步，覆盖监测、变化检测与特征分类等场景。</p>
+          <h2>{lang==='zh'?'模板库与数据访问':'Templates & Data Access'}</h2>
+          <p>{lang==='zh'?'无需下载与集成，使用可复用的构件快速起步，覆盖监测、变化检测与特征分类等场景。':'Start fast with reusable blocks — monitoring, change detection, and feature classification.'}</p>
         </div>
-        {loading && <div style={{textAlign:'center'}}>正在加载模板…</div>}
+        {loading && <div style={{textAlign:'center'}}>{lang==='zh'?'正在加载模板…':'Loading templates…'}</div>}
         {error && <div style={{textAlign:'center', color:'tomato'}}>{error}</div>}
         {!loading && !error && (
           <div className="grid cards">
@@ -30,7 +30,7 @@ export default function Templates(){
                 <div className="card-top">{it.title}</div>
                 <div className="card-body">{it.description}</div>
                 <div>
-                  <Link className="btn btn-soft" to={`/task/${it.id}`}>查看流程 →</Link>
+                  <Link className="btn btn-soft" to={`/task/${it.id}`}>{lang==='zh'?'查看流程 →':'View Flow →'}</Link>
                 </div>
               </div>
             ))}

@@ -41,6 +41,8 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
 .brand { display: inline-flex; align-items: center; gap: 8px; }
 .user-badge { margin-left: 12px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,.06); color: var(--text); font-size: 13px; }
 .brand-icon { display: inline-block; border-radius: 8px; }
+[data-theme="dark"] .brand-icon { border: 1px solid rgba(255,255,255,.12); box-shadow: 0 0 0 2px rgba(255,255,255,.06), 0 8px 16px rgba(0,0,0,.5), 0 0 12px rgba(123,44,255,.22); }
+[data-theme="light"] .brand-icon { border: 1px solid rgba(31,41,55,.08); box-shadow: 0 4px 10px rgba(31,41,55,.14), 0 0 8px rgba(123,44,255,.16); }
 .nav { display: none; gap: 20px; }
 .nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
 .nav a:hover { color: var(--text); }
@@ -76,6 +78,30 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
 .logos { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; width: 100%; max-width: 640px; }
 .logo { display: flex; align-items: center; justify-content: center; height: 44px; border: 1px dashed var(--border); border-radius: 12px; color: var(--muted); background: var(--surface); }
 .hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(800px 300px at 50% -100px, rgba(76,201,255,.25), transparent), radial-gradient(600px 240px at 90% 10%, rgba(123,44,255,.2), transparent); }
+.orbital-bg { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.orbital-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140vmax; height: 140vmax; animation: spin-slow 220s linear infinite; }
+.orbit circle { fill: none; stroke-width: .6; stroke-dasharray: 4 7; animation: orbit-dash 60s linear infinite; }
+.starfield circle { animation: twinkle 3.2s ease-in-out infinite; transform-origin: center; }
+[data-theme="dark"] .orbital-svg { mix-blend-mode: screen; opacity: .32; }
+[data-theme="dark"] .orbit-a circle { stroke: rgba(76,201,255,.22); }
+[data-theme="dark"] .orbit-b circle { stroke: rgba(123,44,255,.20); }
+[data-theme="dark"] .orbit-c circle { stroke: rgba(0,225,163,.18); }
+[data-theme="dark"] .starfield circle { fill: rgba(255,255,255,.38); }
+[data-theme="dark"] .sat circle { fill: rgba(255,255,255,.5); }
+[data-theme="light"] .orbital-svg { mix-blend-mode: multiply; opacity: .22; }
+[data-theme="light"] .orbit-a circle { stroke: rgba(37,99,235,.12); }
+[data-theme="light"] .orbit-b circle { stroke: rgba(124,58,237,.10); }
+[data-theme="light"] .orbit-c circle { stroke: rgba(16,163,74,.10); }
+[data-theme="light"] .starfield circle { fill: rgba(31,41,55,.2); }
+[data-theme="light"] .sat circle { fill: rgba(31,41,55,.32); }
+.starfield circle:nth-child(1){ animation-duration: 2.8s; }
+.starfield circle:nth-child(2){ animation-duration: 3.6s; }
+.starfield circle:nth-child(3){ animation-duration: 4.2s; }
+.starfield circle:nth-child(4){ animation-duration: 3.0s; }
+.starfield circle:nth-child(5){ animation-duration: 5.0s; }
+@keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes orbit-dash { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -240; } }
+@keyframes twinkle { 0%,100% { opacity:.18; transform:scale(1); } 50% { opacity:.42; transform:scale(1.25); } }
 .grid { display: grid; gap: 16px; }
 .steps { grid-template-columns: repeat(4, minmax(0,1fr)); }
 .cards { grid-template-columns: repeat(4, minmax(0,1fr)); }

@@ -44,14 +44,28 @@ function Panel({ item }){
   )
 }
 
-export default function FeaturesCarousel(){
-  const track = [...items, ...items]
+export default function FeaturesCarousel({ lang='zh' }){
+  const enItems = [
+    { id: 'renew', title: 'Renewable Energy Site Analysis', desc: 'Assess wind/solar resources and constraints', img: imgRenew },
+    { id: 'vessel', title: 'Vessel Detection & Classification', desc: 'Detect and classify vessel types', img: imgVessel },
+    { id: 'port', title: 'Port Activity Monitoring', desc: 'Monitor berth occupancy and congestion', img: imgPort },
+    { id: 'solar', title: 'Solar Farm Performance Analytics', desc: 'Panel performance and maintenance prediction', img: imgSolar },
+    { id: 'urban', title: 'Urban Planning Analysis', desc: 'Land use structure and development assessment', img: imgUrban },
+    { id: 'forest', title: 'Forest Cover Assessment', desc: 'Vegetation extent and change monitoring', img: imgForest },
+    { id: 'infra', title: 'Infrastructure Health Monitoring', desc: 'Structural changes and maintenance needs', img: imgInfra },
+    { id: 'agri', title: 'Agriculture Land Prediction', desc: 'Cropland changes and yield trends', img: imgAgri },
+    { id: 'bulk', title: 'Dry Bulk Commodity Analysis', desc: 'Freight volumes and yard dynamics', img: imgBulk },
+    { id: 'route', title: 'Route Planning Optimization', desc: 'Multi-constraint routing and cost optimization', img: imgRoute },
+    { id: 'mineral', title: 'General Mineral Detection', desc: 'Detection applicable to various minerals', img: imgMineral },
+    { id: 'emission', title: 'GHG Emission Monitoring', desc: 'Track greenhouse gases and carbon footprint', img: imgEmission }
+  ]
+  const track = [...(lang==='zh'?items:enItems), ...(lang==='zh'?items:enItems)]
   return (
     <section className="section features-scroller">
       <div className="container">
         <div className="section-head">
-          <h2>更多功能</h2>
-          <p>从可再生能源到城市与交通，持续扩展的功能面板。</p>
+          <h2>{lang==='zh'?'更多功能':'More Features'}</h2>
+          <p>{lang==='zh'?'从可再生能源到城市与交通，持续扩展的功能面板。':'From renewables to urban and transport, continuously expanding panels.'}</p>
         </div>
       </div>
       <div className="scroller" aria-label="功能滚动">

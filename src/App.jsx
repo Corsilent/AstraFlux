@@ -21,8 +21,21 @@ function useTheme() {
   return { theme, toggle: () => setTheme(theme === 'dark' ? 'light' : 'dark') }
 }
 
+function useLang() {
+  const [lang, setLang] = useState('zh')
+  useEffect(() => {
+    const stored = localStorage.getItem('lang')
+    if (stored) setLang(stored)
+  }, [])
+  useEffect(() => {
+    localStorage.setItem('lang', lang)
+  }, [lang])
+  return { lang, toggle: () => setLang(lang === 'zh' ? 'en' : 'zh') }
+}
+
 export default function App() {
   const { theme, toggle } = useTheme()
+  const { lang, toggle: toggleLang } = useLang()
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
@@ -42,12 +55,18 @@ export default function App() {
     setUser(null)
     navigate('/')
   }
-  const nav = [
+  const nav = lang === 'zh' ? [
     { href: '#product', text: '产品' },
     { href: '#templates', text: '模板库' },
     { href: '#workspace', text: '协作' },
     { href: '#outputs', text: '输出' },
     { href: '#faq', text: '常见问题' }
+  ] : [
+    { href: '#product', text: 'Product' },
+    { href: '#templates', text: 'Templates' },
+    { href: '#workspace', text: 'Workspace' },
+    { href: '#outputs', text: 'Outputs' },
+    { href: '#faq', text: 'FAQ' }
   ]
   const onNav = e => {
     const id = e.currentTarget.getAttribute('href')
@@ -60,6 +79,24 @@ export default function App() {
   }
   return (
     <div>
+      <div className="orbital-bg" aria-hidden="true">
+        <svg className="orbital-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" role="none">
+          <g className="orbit orbit-a"><circle cx="50" cy="50" r="28" /></g>
+          <g className="orbit orbit-b"><circle cx="50" cy="50" r="40" /></g>
+          <g className="orbit orbit-c"><circle cx="50" cy="50" r="52" /></g>
+          <g className="starfield">
+            <circle cx="15" cy="20" r="0.6" />
+            <circle cx="85" cy="30" r="0.8" />
+            <circle cx="20" cy="80" r="0.7" />
+            <circle cx="70" cy="75" r="0.6" />
+            <circle cx="45" cy="10" r="0.5" />
+          </g>
+          <g className="sat">
+            <circle cx="50" cy="18" r="0.9" />
+            <circle cx="50" cy="82" r="0.9" />
+          </g>
+        </svg>
+      </div>
       <header className="navbar">
         <div className="container">
           <Link className="brand" to="/"><img className="brand-icon" src="/brand.svg" alt="AstraFlux" width="22" height="22"/>AstraFlux</Link>
@@ -71,16 +108,17 @@ export default function App() {
           </nav>
           <div className="actions">
             <button className="icon-btn" onClick={toggle} aria-label="切换主题">{theme === 'dark' ? '🌗' : '🔆'}</button>
-            <a className="btn btn-primary" href="#cta" onClick={onNav}>开始构建</a>
+            <a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a>
+            <button className="btn btn-soft" onClick={toggleLang}>{lang==='zh'?'EN':'中'}</button>
             {user && (
               <div className="user-greet">
                 <div className="avatar">{initial}</div>
-                <span>欢迎，{user.email}</span>
+                <span>{lang==='zh'?'欢迎':'Welcome'}, {user.email}</span>
               </div>
             )}
-            {!user && (<Link className="btn btn-soft" to="/login">登录</Link>)}
-            {!user && (<Link className="btn btn-soft" to="/register">注册</Link>)}
-            {user && (<button className="btn btn-soft" onClick={logout}>退出登录</button>)}
+            {!user && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
+            {!user && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
+            {user && (<button className="btn btn-soft" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
             <button className="menu-btn" onClick={() => setOpen(!open)} aria-label="打开菜单">☰</button>
           </div>
         </div>
@@ -90,7 +128,7 @@ export default function App() {
               <div className="mobile-user">
                 <div className="avatar xl">{initial}</div>
                 <div className="mobile-user-text">
-                  <div className="welcome">欢迎</div>
+                  <div className="welcome">{lang==='zh'?'欢迎':'Welcome'}</div>
                   <div className="email">{user.email}</div>
                 </div>
               </div>
@@ -98,17 +136,17 @@ export default function App() {
             {nav.map(n => (
               <a key={n.href} href={n.href} onClick={onNav}>{n.text}</a>
             ))}
-            <a className="btn btn-primary" href="#cta" onClick={onNav}>开始构建</a>
-            {!user && (<Link className="btn btn-soft" to="/login">登录</Link>)}
-            {!user && (<Link className="btn btn-soft" to="/register">注册</Link>)}
-            {user && (<button className="btn btn-soft" onClick={logout}>退出登录</button>)}
+            <a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a>
+            {!user && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
+            {!user && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
+            {user && (<button className="btn btn-soft" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
           </div>
         )}
       </header>
 
       <main>
         <Routes>
-          <Route path="/" element={<HomeContent />} />
+          <Route path="/" element={<HomeContent lang={lang} />} />
           <Route path="/task/:id" element={<TaskPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
