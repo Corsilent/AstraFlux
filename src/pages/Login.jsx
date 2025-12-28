@@ -8,12 +8,13 @@ export default function Login(){
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const lang = typeof window !== 'undefined' ? (localStorage.getItem('lang') || 'zh') : 'zh'
+  const API = import.meta.env.VITE_API_URL || '/api'
   const submit = async e => {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/login', {
+      const res = await fetch(`${API}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

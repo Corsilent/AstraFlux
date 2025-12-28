@@ -7,6 +7,8 @@ import HomeContent from './pages/HomeContent.jsx'
 import TaskPage from './pages/TaskPage.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
+import WorkspaceAI from './pages/WorkspaceAI.jsx'
+import PublicGallery from './pages/PublicGallery.jsx'
 
 function useTheme() {
   const [theme, setTheme] = useState('dark')
@@ -71,12 +73,23 @@ export default function App() {
   const onNav = e => {
     const id = e.currentTarget.getAttribute('href')
     const el = document.querySelector(id)
-    if (el) {
-      e.preventDefault()
+    e.preventDefault()
+    if (location.pathname === '/' && el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       setOpen(false)
+      return
     }
+    navigate('/' + id)
+    setOpen(false)
   }
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const el = document.querySelector(location.hash)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+  }, [location.pathname, location.hash])
   return (
     <div>
       <div className="orbital-bg" aria-hidden="true">
@@ -108,7 +121,7 @@ export default function App() {
           </nav>
           <div className="actions">
             <button className="icon-btn" onClick={toggle} aria-label="切换主题">{theme === 'dark' ? '🌗' : '🔆'}</button>
-            <a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a>
+            <Link className="btn btn-primary" to="/workspace">{lang==='zh'?'开始构建':'Get Started'}</Link>
             <button className="btn btn-soft" onClick={toggleLang}>{lang==='zh'?'EN':'中'}</button>
             {user && (
               <div className="user-greet">
@@ -136,7 +149,7 @@ export default function App() {
             {nav.map(n => (
               <a key={n.href} href={n.href} onClick={onNav}>{n.text}</a>
             ))}
-            <a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a>
+            <Link className="btn btn-primary" to="/workspace">{lang==='zh'?'开始构建':'Get Started'}</Link>
             {!user && (<Link className="btn btn-soft" to="/login">{lang==='zh'?'登录':'Login'}</Link>)}
             {!user && (<Link className="btn btn-soft" to="/register">{lang==='zh'?'注册':'Sign Up'}</Link>)}
             {user && (<button className="btn btn-soft" onClick={logout}>{lang==='zh'?'退出登录':'Logout'}</button>)}
@@ -150,6 +163,8 @@ export default function App() {
           <Route path="/task/:id" element={<TaskPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/workspace" element={<WorkspaceAI />} />
+          <Route path="/gallery" element={<PublicGallery />} />
         </Routes>
       </main>
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Templates from '../components/Templates.jsx'
 import Workspace from '../components/Workspace.jsx'
 import Showcase from '../components/Showcase.jsx'
@@ -18,7 +19,7 @@ export default function HomeContent({ lang='zh' }){
             <div className="chips"><span className="chip">🛰️ Agentic AI</span><span className="chip">{lang==='zh'?'地理空间智能':'Geospatial Intelligence'}</span><span className="chip">{lang==='zh'?'端到端平台':'End-to-End Platform'}</span></div>
             <h1 className="hero-title">{lang==='zh'?'Agentic AI for Satellite Intelligence':'Agentic AI for Satellite Intelligence'}</h1>
             <p className="hero-sub">{lang==='zh'?'构建卫星驱动的应用，不再耗时数月。拉取数据、搭建分析并部署到地面或在轨环境，全部在一个安全工作空间中完成。':'Build satellite-powered apps in weeks, not months. Fetch data, design analyses, and deploy to ground or on-orbit environments — all in one secure workspace.'}</p>
-            <div className="hero-ctas"><a className="btn btn-primary" href="#cta" onClick={onNav}>{lang==='zh'?'开始构建':'Get Started'}</a><a className="btn btn-outline" href="#templates" onClick={onNav}>{lang==='zh'?'浏览模板':'Browse Templates'}</a></div>
+            <div className="hero-ctas"><Link className="btn btn-primary" to="/workspace">{lang==='zh'?'开始构建':'Get Started'}</Link><Link className="btn btn-outline" to="/gallery">{lang==='zh'?'浏览模板':'Browse Templates'}</Link></div>
             <div className="trust"><span>{lang==='zh'?'受到能源、矿业与通信领域创新者的信任':'Trusted by innovators in energy, mining, and telecom'}</span><div className="logos"><span className="logo">ENERGY</span><span className="logo">MINING</span><span className="logo">TELECOM</span><span className="logo">GOV</span></div></div>
           </div>
         </div>
@@ -41,7 +42,7 @@ export default function HomeContent({ lang='zh' }){
       <Templates lang={lang} />
       <Workspace lang={lang} />
 
-      <FeaturesCarousel />
+      <FeaturesCarousel lang={lang} />
 
       <section className="section" id="outputs">
         <div className="container">
@@ -110,7 +111,7 @@ export default function HomeContent({ lang='zh' }){
         <div className="container">
           <h2>{lang==='zh'?'立即开始构建':'Start building today'}</h2>
           <p>{lang==='zh'?'在一个安全的工作空间中，快速从卫星数据到生产输出。':'Quickly go from satellite data to production in a secure workspace.'}</p>
-          <div className="hero-ctas"><a className="btn btn-primary" href="#">{lang==='zh'?'注册试用':'Sign up'}</a><a className="btn btn-outline" href="#templates" onClick={onNav}>{lang==='zh'?'浏览模板':'Browse templates'}</a></div>
+          <div className="hero-ctas"><a className="btn btn-primary" href="#">{lang==='zh'?'注册试用':'Sign up'}</a><Link className="btn btn-outline" to="/gallery">{lang==='zh'?'浏览模板':'Browse templates'}</Link></div>
         </div>
       </section>
     </>

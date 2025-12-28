@@ -1,10 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-async function getTemplates(){
-  const r = await fetch('/api/templates')
-  if(!r.ok) throw new Error('模板加载失败')
-  return r.json()
+async function getTemplates(lang){
+  const API = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:3000' : '')
+  if (!API) {
+    return lang === 'zh'
+      ? [
+          { id: 'port-monitor', title: '港口活动监测', description: '识别船只与泊位变化，输出每日报告与告警。' },
+          { id: 'infra-change', title: '基础设施变化检测', description: '对比多时相影像，高亮施工与异常。' },
+          { id: 'landcover', title: '地物分类', description: '道路、植被与水体分割，支持精细化标注。' },
+          { id: 'disaster', title: '灾害评估', description: '洪涝与火灾范围提取，辅助应急响应。' }
+        ]
+      : [
+          { id: 'port-monitor', title: 'Port Activity Monitoring', description: 'Detect vessel and berth changes, generate alerts and reports.' },
+          { id: 'infra-change', title: 'Infrastructure Change Detection', description: 'Compare multi-temporal imagery to highlight construction and anomalies.' },
+          { id: 'landcover', title: 'Land Cover Classification', description: 'Segment roads, vegetation, and water with fine-grained labels.' },
+          { id: 'disaster', title: 'Disaster Assessment', description: 'Extract flood and wildfire extents to support response.' }
+        ]
+  }
+  try {
+    const r = await fetch(`${API}/api/templates`)
+    if (!r.ok) throw new Error('模板加载失败')
+    const ct = r.headers.get('content-type') || ''
+    if (!ct.includes('application/json')) {
+      throw new Error('非JSON响应')
+    }
+    const data = await r.json()
+    if (lang !== 'en') return Array.isArray(data) ? data : []
+    const enMap = {
+      'port-monitor': { title: 'Port Activity Monitoring', description: 'Detect vessel and berth changes, generate alerts and reports.' },
+      'infra-change': { title: 'Infrastructure Change Detection', description: 'Compare multi-temporal imagery to highlight construction and anomalies.' },
+      'landcover': { title: 'Land Cover Classification', description: 'Segment roads, vegetation, and water with fine-grained labels.' },
+      'disaster': { title: 'Disaster Assessment', description: 'Extract flood and wildfire extents to support response.' }
+    }
+    return (Array.isArray(data) ? data : []).map(it => enMap[it.id] ? { ...it, ...enMap[it.id] } : it)
+  } catch {
+    return lang === 'zh'
+      ? [
+          { id: 'port-monitor', title: '港口活动监测', description: '识别船只与泊位变化，输出每日报告与告警。' },
+          { id: 'infra-change', title: '基础设施变化检测', description: '对比多时相影像，高亮施工与异常。' },
+          { id: 'landcover', title: '地物分类', description: '道路、植被与水体分割，支持精细化标注。' },
+          { id: 'disaster', title: '灾害评估', description: '洪涝与火灾范围提取，辅助应急响应。' }
+        ]
+      : [
+          { id: 'port-monitor', title: 'Port Activity Monitoring', description: 'Detect vessel and berth changes, generate alerts and reports.' },
+          { id: 'infra-change', title: 'Infrastructure Change Detection', description: 'Compare multi-temporal imagery to highlight construction and anomalies.' },
+          { id: 'landcover', title: 'Land Cover Classification', description: 'Segment roads, vegetation, and water with fine-grained labels.' },
+          { id: 'disaster', title: 'Disaster Assessment', description: 'Extract flood and wildfire extents to support response.' }
+        ]
+  }
 }
 
 export default function Templates({ lang='zh' }){
@@ -12,8 +56,8 @@ export default function Templates({ lang='zh' }){
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   useEffect(() => {
-    getTemplates().then(d => { setItems(d); setLoading(false) }).catch(e => { setError(e.message); setLoading(false) })
-  }, [])
+    getTemplates(lang).then(d => { setItems(d); setLoading(false) }).catch(e => { setError(e.message); setLoading(false) })
+  }, [lang])
   return (
     <section className="section" id="templates">
       <div className="container">

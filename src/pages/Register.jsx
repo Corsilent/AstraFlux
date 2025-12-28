@@ -5,18 +5,20 @@ export default function Register() {
   const nav = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [invite, setInvite] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const lang = typeof window !== 'undefined' ? (localStorage.getItem('lang') || 'zh') : 'zh'
+  const API = import.meta.env.VITE_API_URL || '/api'
   const submit = async e => {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/register', {
+      const res = await fetch(`${API}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, invite })
       })
       const data = await res.json()
       if (res.ok && data && data.ok) {
@@ -47,6 +49,10 @@ export default function Register() {
               <label className="auth-row">
                         <span>{lang==='zh'?'密码':'Password'}</span>
                 <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="至少 6 位" required />
+              </label>
+              <label className="auth-row">
+                        <span>{lang==='zh'?'邀请码':'Invite Code'}</span>
+                <input type="text" value={invite} onChange={e=>setInvite(e.target.value)} placeholder={lang==='zh'?'请输入邀请码':'Enter invite code'} required />
               </label>
                       {error && (<div className="auth-error">{error}</div>)}
                       <button className="btn btn-primary" type="submit" disabled={loading}>{loading ? (lang==='zh'?'注册中…':'Signing up…') : (lang==='zh'?'注册':'Sign Up')}</button>
